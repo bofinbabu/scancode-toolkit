@@ -250,7 +250,7 @@ patterns = [
     (r'^(?:Copyleft|LegalCopyright|AssemblyCopyright|Distributed|Report|'
      r'Available|true|false|node|jshint|node\':true|node:true|this|Act,?|'
      r'[Ff]unctionality|bgcolor|F+|Rewrote|Much|remains?,?|Implementation|earlier'
-     r'|al.|is|laws|url|[Ss]ee)$', 'JUNK'),
+     r'|al.|is|laws|url|[Ss]ee|[Pp]ackage\.?)$', 'JUNK'),
 
     # Some mixed case junk
     (r'^LastModified$', 'JUNK'),
