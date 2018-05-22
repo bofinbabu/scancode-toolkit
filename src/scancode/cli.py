@@ -119,6 +119,7 @@ if TRACE or TRACE_DEEP:
 
 echo_stderr = partial(click.secho, err=True)
 
+
 def print_examples(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
@@ -691,7 +692,8 @@ def scancode(ctx, input,  # NOQA
                     codebase=codebase, kwargs=kwargs,
                     quiet=quiet, verbose=verbose,
                     stage_msg='Run %(stage)ss...',
-                    plugin_msg=' Run %(stage)s: %(name)s...')
+                    plugin_msg=' Run %(stage)s: %(name)s...',
+                    exit_on_fail=True)
 
         ########################################################################
         # 6. run scans.
@@ -715,7 +717,8 @@ def scancode(ctx, input,  # NOQA
                     codebase=codebase, kwargs=kwargs,
                     quiet=quiet, verbose=verbose,
                     stage_msg='Run %(stage)ss...',
-                    plugin_msg=' Run %(stage)s: %(name)s...')
+                    plugin_msg=' Run %(stage)s: %(name)s...',
+                    exit_on_fail=False)
 
         ########################################################################
         # 8. apply output filters
@@ -726,7 +729,8 @@ def scancode(ctx, input,  # NOQA
                     codebase=codebase, kwargs=kwargs,
                     quiet=quiet, verbose=verbose,
                     stage_msg='Apply %(stage)ss...',
-                    plugin_msg=' Apply %(stage)s: %(name)s...')
+                    plugin_msg=' Apply %(stage)s: %(name)s...',
+                    exit_on_fail=False)
 
         ########################################################################
         # 9. save outputs
@@ -806,6 +810,8 @@ def run_plugins(ctx, stage, plugins, codebase, kwargs, quiet, verbose,
             echo_stderr(traceback.format_exc())
             if exit_on_fail:
                 ctx.exit(2)
+            else:
+                codebase.errors.append(msg + '\n' + traceback.format_exc())
 
         timing_key = '%(stage)s:%(name)s' % locals()
         codebase.timings[timing_key] = time() - plugin_start
